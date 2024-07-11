@@ -23,7 +23,7 @@ The open-source [Code Interpreter SDK](https://github.com/e2b-dev/code-interpret
 
 To start building with E2B and Together AI, check out the examples in the [Together doxcs](https://docs.together.ai/docs). You can choose from a [Python](LINK_HERE) or [JavaScript/TypeScript](LINK_HERE) version.
 
-The Code Interpreter SDK is E2B's special SDK tailor-made for AI data analysts, coding apps, and reasoning-heavy agents. The SDK quickly creates a secure cloud sandbox, and inside that is a running Jupyter server that the LLM can use.
+The Code Interpreter SDK is E2B's special SDK tailor-made for AI data analysts, coding apps, and reasoning-heavy agents. The SDK quickly creates a secure cloud sandbox inside which is running a Jupyter server that the LLM can use.
 
 1, Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key) for free.
 
