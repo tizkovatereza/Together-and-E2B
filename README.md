@@ -1,6 +1,6 @@
 ## Secure code execution with E2B
 
-### Learn how to easily use the E2B Code Interpreter SDK with Together AI models.
+### How to use the E2B Code Interpreter SDK with Together AI models.
 
 
 <img width="1280" alt="How E2B Code Interpreter Works" src="https://github.com/tizkovatereza/Together-and-E2B/assets/135881365/608ab4f6-9c74-48cc-8aa3-fb80d04048af">
