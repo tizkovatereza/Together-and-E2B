@@ -35,6 +35,15 @@ JavaScript & TypeScript version:
 npm i @e2b/code-interpreter
 ```
 
+Python version:
+
+```sh
+pip install e2b_code_interpreter
+```
+
+
+3. Execute code with code interpreter inside sandbox
+
 ```js
 import { CodeInterpreter } from '@e2b/code-interpreter'
 
@@ -47,12 +56,6 @@ console.log(execution.text)  // outputs 2
 await sandbox.close()
 ```
 
-Python version:
-
-```sh
-pip install e2b_code_interpreter
-```
-
 ```python
 from e2b_code_interpreter import CodeInterpreter
 
@@ -62,8 +65,6 @@ with CodeInterpreter() as sandbox:
     execution = sandbox.notebook.exec_cell("x+=1; x")
     print(execution.text)  # outputs 2
 ```
-
-3. Execute code with code interpreter inside sandbox
 
 
 ### More about E2B
