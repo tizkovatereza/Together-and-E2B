@@ -3,7 +3,8 @@
 ### Learn how to easily use the E2B Code Interpreter SDK with Together AI models.
 
 
-![image](https://github.com/tizkovatereza/Together-and-E2B/assets/135881365/f7ef5d64-27ba-4c2f-9b13-c5383bab86ce)
+<img width="1280" alt="How E2B Code Interpreter Works" src="https://github.com/tizkovatereza/Together-and-E2B/assets/135881365/608ab4f6-9c74-48cc-8aa3-fb80d04048af">
+
 
 ### Why give your AI app code interpreting capabilities?
 
