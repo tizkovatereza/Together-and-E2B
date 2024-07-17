@@ -502,6 +502,57 @@ first_result
 In the JS & TS version the resulting chart is saved to the same directory as a PNG file. In the Python version, the file is generated within the notebook. The plot shows the linear regression of the relationship between GDP per capita and life expectancy from the CSV data.
 
 
+1️⃣ JavaScript & TypeScript version:
+
+```js
+TOGETHER_API_KEY: Loaded
+E2B_API_KEY: Loaded
+(node:3155) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+Uploading dataset to Code Interpreter sandbox...
+Uploaded at /home/user/data.csv
+Remote path of the uploaded dataset: /home/user/data.csv
+
+==================================================
+User Message: Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format.
+==================================================
+CODE TO RUN
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+
+# Load the data
+data = pd.read_csv('/home/user/data.csv', delimiter=',')
+
+# Filter out missing values or values in wrong format
+data = data.dropna(subset=['GDP per capita (current US$)', 'Life expectancy at birth, total (years)'])
+
+# Convert columns to numeric
+data['GDP per capita (current US$)'] = pd.to_numeric(data['GDP per capita (current US$)'], errors='coerce')
+data['Life expectancy at birth, total (years)'] = pd.to_numeric(data['Life expectancy at birth, total (years)'], errors='coerce')
+
+# Filter out any remaining non-numeric values
+data = data.dropna(subset=['GDP per capita (current US$)', 'Life expectancy at birth, total (years)'])
+
+# Fit linear regression model
+X = data['GDP per capita (current US$)'].values.reshape(-1, 1)
+y = data['Life expectancy at birth, total (years)'].values.reshape(-1, 1)
+model = LinearRegression().fit(X, y)
+
+# Plot the data and the regression line
+plt.scatter(X, y, color='blue')
+plt.plot(X, model.predict(X), color='red')
+plt.xlabel('GDP per capita (current US$)')
+plt.ylabel('Life expectancy at birth, total (years)')
+plt.title('Linear Regression of GDP per capita vs Life Expectancy')
+plt.show()
+Running code interpreter...
+...
+...
+...
+Success: Image generated and saved as image_1.png
+```
+
 2️⃣ Python version:
 
 ```python
