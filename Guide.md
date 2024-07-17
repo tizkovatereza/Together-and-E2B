@@ -47,7 +47,7 @@ Download the CSV file from [here](https://www.kaggle.com/datasets/nishanthsalian
 1️⃣ JavaScript & TypeScript version:
 
 ```sh
-npm i @e2b/code-interpreter
+npm i @e2b/code-interpreter together-ai dotenv
 ```
 
 2️⃣ Python version:
@@ -537,9 +537,9 @@ Running code interpreter...
 
 
 ## Resources
-- [Code Interpreter SDK](https://github.com/e2b-dev/code-interpreter). The SDK has a Python and JavaScript/TypeScript version.
-- E2B works with any LLM and any AI frameworks (e.g., [LangChain](https://github.com/e2b-dev/e2b-cookbook/tree/main/examples/langchain-python), LammaIndex, [Vercel AI SDK](https://github.com/e2b-dev/e2b-cookbook/tree/main/examples/nextjs-code-interpreter), CrewAI, [Autogen](https://github.com/e2b-dev/e2b-cookbook/tree/main/examples/e2b_autogen)).
-- Check out the [E2B docs](https://e2b.dev/docs) and [E2B Cookbook](https://github.com/e2b-dev/e2b-cookbook/tree/main).
+- [Code Interpreter SDK](https://github.com/e2b-dev/code-interpreter)
+- [E2B docs](https://e2b.dev/docs)
+- [E2B Cookbook](https://github.com/e2b-dev/e2b-cookbook/tree/main).
 
 
 
