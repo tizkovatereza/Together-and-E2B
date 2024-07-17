@@ -156,6 +156,9 @@ Generally, you follow these rules:
 ```
 
 
+### 4. Add code interpreting capabilities
+
+Now we define the function that will use the code interpreter by E2B. Everytime the LLM assistant decides that it needs to execute code, this function will be used. Read more about the Code Interpreter SDK [here](https://e2b.dev/docs/code-interpreter/installation).
 
 Python version:
 
@@ -175,6 +178,11 @@ def code_interpret(e2b_code_interpreter, code):
   else:
     return exec.results
 ```
+
+
+### 5. Initialize the model
+
+Now we initialize the Together AI client. The function `match_code_blocks` is important because we need to pick the right part of the output that contains the code produced by the LLM. The `chat_with_llm` function takes care of the interaction with the LLM. It calls the E2B code interpreter anytime there is a code to be run.
 
 
 Python version:
@@ -222,6 +230,10 @@ def chat_with_llm(e2b_code_interpreter, user_message):
 
 ```
 
+### 6. Upload the dataset
+
+The CSV data is uploaded programmatically, not via AI-generated code. The code interpreter by E2B runs inside the E2B sandbox. Read more about the file upload [here](https://e2b.dev/docs/sandbox/api/upload).
+
 
 Python version:
 
@@ -233,6 +245,10 @@ def upload_dataset(code_interpreter):
   print("Uploaded at", remote_path)
 ```
 
+### 7. Put everything together
+
+Finally we put everything together and let the AI assistant upload the data, run an analysis, and generate a PNG file with a chart. 
+You can update the task for the assistant in this step. If you decide to change the CSV file you are using, don't forget to update the prompt too.
 
 Python version:
 
@@ -245,7 +261,7 @@ with CodeInterpreter(api_key=E2B_API_KEY) as code_interpreter:
 
   code_results = chat_with_llm(
     code_interpreter,
-    "Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the global_economy_indicators. Filter out any missing values or values in wrong format."
+    "Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format."
   )
   if code_results:
     first_result = code_results[0]
@@ -263,7 +279,9 @@ first_result
 ```
 
 
-## Run the program and see the results
+### 8. Run the program and see the results
+
+In the JS & TS version the resulting chart is saved to the same directory as a PNG file. In the Python version, the file is generated within the notebook. The plot shows the linear regression of the relationship between GDP per capita and life expectancy from the CSV data.
 
 Python version:
 
@@ -272,7 +290,7 @@ Uploading dataset to Code Interpreter sandbox...
 Uploaded at /home/user/data.csv
 
 ==================================================
-User message: Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the global_economy_indicators. Filter out any missing values or values in wrong format.
+User message: Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format.
 ==================================================
 import pandas as pd
 import seaborn as sns
