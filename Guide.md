@@ -16,7 +16,7 @@ The open-source [Code Interpreter SDK](https://github.com/e2b-dev/code-interpret
 
 ## Trying E2B in 100 lines of code
 
-1. Prerequisites
+### 1. Prerequisites
 
 You can choose a JavaScript & TypesScript or Python version of this example. In the former case, create an `index.ts` file for the main program, `.gitignore` file containing
 ```sh
@@ -36,10 +36,12 @@ E2B_API_KEY = ""
 
 In the latter case, create just `main.ipynb` file.
 
-Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key) for free.
-Get your Together AI API key here.
+Get the E2B API key [here](https://e2b.dev/docs/getting-started/api-key) and the Together AI API key [here](https://api.together.xyz/settings/api-keys).
 
-2. Install the SDK
+Download the CSV file from [here](https://www.kaggle.com/datasets/nishanthsalian/socioeconomic-country-profiles/code) and upload it to the same directory as your program. Rename it to `data.csv`.
+
+
+### 2. Install the SDKs
 
 JavaScript & TypeScript version:
 
@@ -54,9 +56,11 @@ pip install together==1.2.1 e2b-code-interpreter==0.0.10
 
 ```
 
-3. Set up the API keys and model instructions.
-In this step you add your E2B and Together API keys to the program. In the JS & TS case, create .env file to store the keys.
-In the Python case, paste them into the program.
+### 3. Set up the API keys and model instructions.
+In this step you upload your E2B and Together API keys to the program. In the JS & TS case, the API keys are stored in the `.env` file, in the Python case, they are added directly to the notebook.
+You pick the Together AI model of your choice by uncommenting it. There are some recommended models great at code generation, but you can add a different one from [here](https://api.together.ai/models).
+
+The model is assigned a data scientist role and explained the uploaded CSV. You can choose different data but need to update the instructions accordingly.
    
 JavaScript & TypeScript version:
 
