@@ -16,7 +16,28 @@ The open-source [Code Interpreter SDK](https://github.com/e2b-dev/code-interpret
 
 ## Trying E2B in 100 lines of code
 
-1. Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key) for free.
+1. Prerequisites
+
+You can choose a JavaScript & TypesScript or Python version of this example. In the former case, create an `index.ts` file for the main program, `.gitignore` file containing
+```sh
+.env
+.node_modules
+```
+
+and `.env` file that looks like this:
+
+```
+# TODO: Get your Together AI API key from https://api.together.xyz/settings/api-keys
+TOGETHER_API_KEY = ""
+
+# TODO: Get your E2B API key from https://e2b.dev/docs
+E2B_API_KEY = ""
+```
+
+In the latter case, create just `main.ipynb` file.
+
+Get your E2B API key [here](https://e2b.dev/docs/getting-started/api-key) for free.
+Get your Together AI API key here.
 
 2. Install the SDK
 
@@ -33,9 +54,12 @@ pip install together==1.2.1 e2b-code-interpreter==0.0.10
 
 ```
 
-3. Set up the API keys and
+3. Set up the API keys and model instructions.
+In this step you add your E2B and Together API keys to the program. In the JS & TS case, create .env file to store the keys.
+In the Python case, paste them into the program.
    
 JavaScript & TypeScript version:
+
 
 ```js
 
