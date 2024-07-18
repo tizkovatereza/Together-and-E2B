@@ -23,14 +23,7 @@ The SDK quickly creates a secure cloud sandbox. Inside the sandbox is a running 
 
 ### 1. Prerequisites
 
-You can choose a JavaScript & TypesScript or Python version of this example. In the former case, create an `index.ts` file for the main program, `.gitignore` file containing
-
-```sh
-.env
-.node_modules
-```
-
-and `.env` file that looks like this:
+You can choose a JavaScript & TypesScript or Python version of this example. In the former case, create an `index.ts` file for the main program, and `.env` file that looks like this:
 
 ```
 # TODO: Get your Together AI API key from https://api.together.xyz/settings/api-keys
