@@ -1,4 +1,4 @@
-# E2B code interpreting
+# Code Interpreting with E2B
 
 Learn how to use E2B with Together AI LLMs to securely run the AI-generated code.
 
