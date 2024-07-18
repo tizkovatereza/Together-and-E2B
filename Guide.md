@@ -45,13 +45,14 @@ Download the CSV file from [here](https://www.kaggle.com/datasets/nishanthsalian
 1️⃣ JavaScript & TypeScript version:
 
 ```sh
-npm i @e2b/code-interpreter together-ai dotenv
+npm install @e2b/code-interpreter@0.0.5 together-ai@0.6.0-alpha.4 dotenv@16.4.5
+
 ```
 
 2️⃣ Python version:
 
 ```sh
-pip install together==1.2.1 e2b-code-interpreter==0.0.10
+pip install together==0.6.0 e2b-code-interpreter==0.0.10 dotenv==1.0.0
 
 ```
 
@@ -84,9 +85,6 @@ if (!E2B_API_KEY) {
     console.error('Error: E2B_API_KEY is not provided. Please set the E2B_API_KEY in your environment variables.')
     process.exit(1)
 }
-
-console.log('TOGETHER_API_KEY:', TOGETHER_API_KEY ? 'Loaded' : 'Not Loaded')
-console.log('E2B_API_KEY:', E2B_API_KEY ? 'Loaded' : 'Not Loaded')
 
 // Choose from the codegen models:
 
@@ -171,11 +169,21 @@ Generally, you follow these rules:
 2️⃣ Python version:
 
 ```python
+import os
+from dotenv import load_dotenv
+import os
+import json
+import re
+from together import Together
+from e2b_code_interpreter import CodeInterpreter
+
+load_dotenv()
+
 # TODO: Get your Together AI API key from https://api.together.xyz/settings/api-keys
-TOGETHER_API_KEY = ""
+TOGETHER_API_KEY = os.getenv("TOGETHER_API_KEY")
 
 # TODO: Get your E2B API key from https://e2b.dev/docs
-E2B_API_KEY = ""
+E2B_API_KEY = os.getenv("E2B_API_KEY")
 
 # Choose from the codegen models:
 
@@ -241,17 +249,17 @@ Information about the csv dataset:
 Generally, you follow these rules:
 - ALWAYS FORMAT YOUR RESPONSE IN MARKDOWN
 - ALWAYS RESPOND ONLY WITH CODE IN CODE BLOCK LIKE THIS:
-    ```python
-    {code}
-    ```
-- the Python code runs in jupyter notebook.
-- every time you generate Python, the code is executed in a separate cell. it's okay to make multiple calls to `execute_python`.
-- display visualizations using matplotlib or any other visualization library directly in the notebook. don't worry about saving the visualizations to a file.
-- you have access to the internet and can make api requests.
-- you also have access to the filesystem and can read/write files.
-- you can install any pip package (if it exists) if you need to be running `!pip install {package}`. The usual packages for data analysis are already preinstalled though.
-- you can run any Python code you want, everything is running in a secure sandbox environment
-"""
+      ```python
+      {code}
+      ```
+   - the Python code runs in jupyter notebook.
+   - every time you generate Python, the code is executed in a separate cell. it's okay to make multiple calls to `execute_python`.
+   - display visualizations using matplotlib or any other visualization library directly in the notebook. don't worry about saving the visualizations to a file.
+   - you have access to the internet and can make api requests.
+   - you also have access to the filesystem and can read/write files.
+   - you can install any pip package (if it exists) if you need to be running `!pip install {package}`. The usual packages for data analysis are already preinstalled though.
+   - you can run any Python code you want, everything is running in a secure sandbox environment
+   """
 ```
 
 
@@ -320,60 +328,57 @@ async function chat(codeInterpreter: CodeInterpreter, userMessage: string): Prom
 
 ```python
 def code_interpret(e2b_code_interpreter, code):
-  print("Running code interpreter...")
-  exec = e2b_code_interpreter.notebook.exec_cell(
-    code,
-    on_stderr=lambda stderr: print("[Code Interpreter]", stderr),
-    on_stdout=lambda stdout: print("[Code Interpreter]", stdout),
-    # You can also stream code execution results
-    # on_result=...
-  )
+    print("Running code interpreter...")
+    exec = e2b_code_interpreter.notebook.exec_cell(
+        code,
+        on_stderr=lambda stderr: print("[Code Interpreter]", stderr),
+        on_stdout=lambda stdout: print("[Code Interpreter]", stdout),
+        # You can also stream code execution results
+        # on_result=...
+    )
 
-  if exec.error:
-    print("[Code Interpreter ERROR]", exec.error)
-  else:
-    return exec.results
-
-import os
-import json
-import re
-from together import Together
+    if exec.error:
+        print("[Code Interpreter ERROR]", exec.error)
+    else:
+        return exec.results
 
 client = Together(api_key=TOGETHER_API_KEY)
 
-import re
-pattern = re.compile(r'```python\n(.*?)\n```', re.DOTALL) # Match everything in between ```python and ```
+pattern = re.compile(
+    r"```python\n(.*?)\n```", re.DOTALL
+)  # Match everything in between ```python and ```
+
+
 def match_code_blocks(llm_response):
-  match = pattern.search(llm_response)
-  if match:
-    code = match.group(1)
-    print(code)
-    return code
-  return ""
+    match = pattern.search(llm_response)
+    if match:
+        code = match.group(1)
+        print(code)
+        return code
+    return ""
+
 
 def chat_with_llm(e2b_code_interpreter, user_message):
-  print(f"\n{'='*50}\nUser message: {user_message}\n{'='*50}")
+    print(f"\n{'='*50}\nUser message: {user_message}\n{'='*50}")
 
-  messages = [
-      {"role": "system", "content": SYSTEM_PROMPT},
-      {"role": "user", "content": user_message}
-  ]
+    messages = [
+        {"role": "system", "content": SYSTEM_PROMPT},
+        {"role": "user", "content": user_message},
+    ]
 
-  response = client.chat.completions.create(
-      model=MODEL_NAME,
-      messages=messages,
-  )
+    response = client.chat.completions.create(
+        model=MODEL_NAME,
+        messages=messages,
+    )
 
-  response_message = response.choices[0].message
-  python_code = match_code_blocks(response_message.content)
-  if python_code != "":
-    code_interpreter_results = code_interpret(e2b_code_interpreter, python_code)
-    return code_interpreter_results
-  else:
-    print(f"Failed to match any Python code in model's response {response_message}")
-    return[]
-
-
+    response_message = response.choices[0].message
+    python_code = match_code_blocks(response_message.content)
+    if python_code != "":
+        code_interpreter_results = code_interpret(e2b_code_interpreter, python_code)
+        return code_interpreter_results
+    else:
+        print(f"Failed to match any Python code in model's response {response_message}")
+        return []
 ```
 
 ### 6. Upload the dataset
@@ -412,10 +417,24 @@ async function uploadDataset(codeInterpreter: CodeInterpreter): Promise<string> 
 
 ```python
 def upload_dataset(code_interpreter):
-  print("Uploading dataset to Code Interpreter sandbox...")
-  with open("./data.csv", "rb") as f:
-    remote_path = code_interpreter.upload_file(f)
-  print("Uploaded at", remote_path)
+    print("Uploading dataset to Code Interpreter sandbox...")
+    dataset_path = "./data.csv"
+
+    if not os.path.exists(dataset_path):
+        raise FileNotFoundError("Dataset file not found")
+
+    try:
+        with open(dataset_path, "rb") as f:
+            remote_path = code_interpreter.upload_file(f)
+
+        if not remote_path:
+            raise ValueError("Failed to upload dataset")
+
+        print("Uploaded at", remote_path)
+        return remote_path
+    except Exception as error:
+        print("Error during file upload:", error)
+        raise error
 ```
 
 ### 7. Put everything together
@@ -459,25 +478,24 @@ async function run() {
 }
 
 run()
+
 ```
 
 2️⃣ Python version:
 
 ```python
-from e2b_code_interpreter import CodeInterpreter
-
 with CodeInterpreter(api_key=E2B_API_KEY) as code_interpreter:
-  # Upload the dataset to the code interpreter sandbox
-  upload_dataset(code_interpreter)
+    # Upload the dataset to the code interpreter sandbox
+    upload_dataset(code_interpreter)
 
-  code_results = chat_with_llm(
-    code_interpreter,
-    "Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format."
-  )
-  if code_results:
-    first_result = code_results[0]
-  else:
-    raise Exception("No code interpreter results")
+    code_results = chat_with_llm(
+        code_interpreter,
+        "Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format.",
+    )
+    if code_results:
+        first_result = code_results[0]
+    else:
+        raise Exception("No code interpreter results")
 
 
 # This will render the image
@@ -498,9 +516,10 @@ In the JS & TS version the resulting chart is saved to the same directory as a P
 1️⃣ JavaScript & TypeScript version:
 
 ```js
-TOGETHER_API_KEY: Loaded
-E2B_API_KEY: Loaded
-(node:3155) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+> together-code-interpreter@1.0.0 start
+> tsx index.ts
+
+(node:21539) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
 (Use `node --trace-deprecation ...` to show where the warning was created)
 Uploading dataset to Code Interpreter sandbox...
 Uploaded at /home/user/data.csv
@@ -537,9 +556,9 @@ plt.scatter(X, y, color='blue')
 plt.plot(X, model.predict(X), color='red')
 plt.xlabel('GDP per capita (current US$)')
 plt.ylabel('Life expectancy at birth, total (years)')
-plt.title('Linear Regression of GDP per capita vs Life Expectancy')
 plt.show()
 Running code interpreter...
+codeInterpreterResults: [
 ...
 ...
 ...
@@ -556,25 +575,31 @@ Uploaded at /home/user/data.csv
 User message: Make a chart showing linear regression of the relationship between GDP per capita and life expectancy from the data. Filter out any missing values or values in wrong format.
 ==================================================
 import pandas as pd
-import seaborn as sns
 import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
 
 # Load the data
-df = pd.read_csv('/home/user/data.csv', delimiter=',')
+data = pd.read_csv('/home/user/data.csv', delimiter=',')
 
 # Clean the data
-df = df.dropna(subset=['GDP per capita (current US$)', 'Life expectancy at birth, total (years)'])
-df['GDP per capita (current US$)'] = pd.to_numeric(df['GDP per capita (current US$)'], errors='coerce')
-df['Life expectancy at birth, total (years)'] = pd.to_numeric(df['Life expectancy at birth, total (years)'], errors='coerce')
+data = data.dropna(subset=['GDP per capita (current US$)', 'Life expectancy at birth, total (years)'])
+data['GDP per capita (current US$)'] = pd.to_numeric(data['GDP per capita (current US$)'], errors='coerce')
+data['Life expectancy at birth, total (years)'] = pd.to_numeric(data['Life expectancy at birth, total (years)'], errors='coerce')
 
-# Plot the data
-sns.regplot(x='GDP per capita (current US$)', y='Life expectancy at birth, total (years)', data=df)
-plt.title('Linear Regression of GDP per Capita vs Life Expectancy')
-plt.xlabel('GDP per Capita (current US$)')
-plt.ylabel('Life Expectancy (years)')
+# Fit the linear regression model
+X = data['GDP per capita (current US$)'].values.reshape(-1, 1)
+y = data['Life expectancy at birth, total (years)'].values.reshape(-1, 1)
+model = LinearRegression().fit(X, y)
+
+# Plot the data and the regression line
+plt.scatter(X, y, color='blue')
+...
+plt.xlabel('GDP per capita (current US$)')
+plt.ylabel('Life expectancy at birth, total (years)')
 plt.show()
 Running code interpreter...
 ```
+![image](https://github.com/user-attachments/assets/3e25a286-7e0a-452b-9b8b-81c1fa2c3aca)
 
 
 
