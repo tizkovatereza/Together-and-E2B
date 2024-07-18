@@ -588,4 +588,4 @@ Running code interpreter...
 ## Resources
 - [Code Interpreter SDK](https://github.com/e2b-dev/code-interpreter)
 - [E2B docs](https://e2b.dev/docs)
-- [E2B Cookbook](https://github.com/e2b-dev/e2b-cookbook/tree/main).
+- [E2B Cookbook](https://github.com/e2b-dev/e2b-cookbook/tree/main)
