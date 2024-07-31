@@ -88,7 +88,10 @@ if (!E2B_API_KEY) {
 
 // Choose from the codegen models:
 
-const MODEL_NAME = 'Qwen/Qwen2-72B-Instruct'
+const MODEL_NAME = 'meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo'
+// const MODEL_NAME = 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo'
+// const MODEL_NAME = 'meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo'
+// const MODEL_NAME = 'Qwen/Qwen2-72B-Instruct'
 // const MODEL_NAME = "codellama/CodeLlama-70b-Instruct-hf"
 // const MODEL_NAME = "deepseek-ai/deepseek-coder-33b-instruct"
 
@@ -187,9 +190,12 @@ E2B_API_KEY = os.getenv("E2B_API_KEY")
 
 # Choose from the codegen models:
 
+MODEL_NAME = "meta-llama/Meta-Llama-3.1-405B-Instruct-Turbo"
+# MODEL_NAME = "meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo"
+# MODEL_NAME = "meta-llama/Meta-Llama-3.1-8B-Instruct-Turbo"
 # MODEL_NAME = "codellama/CodeLlama-70b-Instruct-hf"
 # MODEL_NAME = "deepseek-ai/deepseek-coder-33b-instruct"
-MODEL_NAME = "Qwen/Qwen2-72B-Instruct"
+# MODEL_NAME = "Qwen/Qwen2-72B-Instruct"
 # See the complete list of Together AI models here: https://api.together.ai/models.
 
 SYSTEM_PROMPT = """You're a Python data scientist. You are given tasks to complete and you run Python code to solve them.
