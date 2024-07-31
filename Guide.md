@@ -605,7 +605,9 @@ plt.ylabel('Life expectancy at birth, total (years)')
 plt.show()
 Running code interpreter...
 ```
-![image](https://github.com/user-attachments/assets/3e25a286-7e0a-452b-9b8b-81c1fa2c3aca)
+
+![image](https://github.com/user-attachments/assets/392a9c6a-9e26-4408-bcc6-b8c324ca92a4)
+
 
 
 
