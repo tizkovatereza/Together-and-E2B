@@ -387,7 +387,7 @@ def chat_with_llm(e2b_code_interpreter, user_message):
         return []
 ```
 
-### 6. Upload the dataset
+### 5. Upload the dataset
 
 The CSV data is uploaded programmatically, not via AI-generated code. The code interpreter by E2B runs inside the E2B sandbox. Read more about the file upload [here](https://e2b.dev/docs/sandbox/api/upload).
 
@@ -443,7 +443,7 @@ def upload_dataset(code_interpreter):
         raise error
 ```
 
-### 7. Put everything together
+### 6. Put everything together
 
 Finally we put everything together and let the AI assistant upload the data, run an analysis, and generate a PNG file with a chart. 
 You can update the task for the assistant in this step. If you decide to change the CSV file you are using, don't forget to update the prompt too.
@@ -514,7 +514,7 @@ first_result
 ```
 
 
-### 8. Run the program and see the results
+### 7. Run the program and see the results
 
 In the JS & TS version the resulting chart is saved to the same directory as a PNG file. In the Python version, the file is generated within the notebook. The plot shows the linear regression of the relationship between GDP per capita and life expectancy from the CSV data.
 
